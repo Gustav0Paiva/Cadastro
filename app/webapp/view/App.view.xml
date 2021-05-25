@@ -14,19 +14,20 @@
          <form:Form >
     
              <form:layout>
-                <form:ColumnLayout columnsXL="3" columnsL="2" columnsM="2" labelCellsLarge="2" emptyCellsLarge="2"/>                 
+
+                <form:ColumnLayout columnsXL="3" columnsL="2" columnsM="2" labelCellsLarge="2" emptyCellsLarge="2"/> 
+
              </form:layout>
              <form:formContainers>
-
                 <form:FormContainer>
                     <form:formElements>
-                        
+                    
                         <form:FormElement>
                             <form:label>
                                 <Label text="Nome" design="Bold"/>
                             </form:label>
                             <form:fields>
-                                <Input enabled="false"/>
+                                <Input value="{Employees>/name}"/>
                             </form:fields>
                         </form:FormElement>
 
@@ -35,29 +36,37 @@
                                 <Label text="Email" design="Bold"/>
                             </form:label>
                             <form:fields>
-                                <Input enabled="false"/>
+                                <Input value="{Employees>/email}"/>
                             </form:fields>
                         </form:FormElement>
-
+                        
                         <form:FormElement>
                             <form:label>
                                 <Label text="Data de Nascimento" design="Bold"/>
                             </form:label>
                             <form:fields>
-                                <MaskInput placeholder="DD/MM/AAAA" mask="~~/~~/~~~~" enabled="false">
+                                <MaskInput value="{Employees>/birthDate}" placeholder="YYYY-MM-DD" mask="    -  -  " enabled="true">
                                         <rules>
-                                            <MaskInputRule maskFormatSymbol="~"/>
+                                            <MaskInputRule   maskFormatSymbol=" "/>
                                         </rules>
 				                </MaskInput>
                             </form:fields>
                         </form:FormElement>
 
-                         <form:FormElement>
+                        
+    
+                       <form:FormElement>
                             <form:label>
-                                <Label text="Setor" design="Bold"/>
+                                <Label text="Tipo" design="Bold"/>
                             </form:label>
                             <form:fields>
-                                    <Input value="{Employees>department_ID}" enabled="false"/>
+                                <ComboBox selectedKey="{Employees>/department_ID}">
+                                    <items>
+                                        <core:Item key="1" text="Projetos"></core:Item>
+                                        <core:Item key="2" text="Financeiros"></core:Item>
+                                        <core:Item key="3" text="Recursos Humanos"></core:Item>
+                                    </items>
+                                </ComboBox>
                             </form:fields>
                         </form:FormElement>
 
@@ -65,22 +74,22 @@
                             <form:label >
                                 <Label design="Bold" text="Ja está vacinado do COVID-19?"/>
                             </form:label>
-                            <form:fields>
-                                <RadioButtonGroup  columns="2" selectedIndex="2" class="sapUiMediumMarginBottom">
-                                    <RadioButton  text="Sim" />
-                                    <RadioButton  text="Não" />
+                            <form:fields >
+                                <RadioButtonGroup columns="2" id="vaccinated" select="onSelect"   selectedIndex="-1">
+                                <RadioButton text="Sim" />
+                                <RadioButton  text="Não"/>
                                 </RadioButtonGroup>
                             </form:fields>
                         </form:FormElement>
                         
                         <form:FormElement >
                             <form:label>
-                                <Label labelFor="rbg2" design="Bold" text="Pertence ao Grupo de Risco?" />
+                                <Label design="Bold" text="Pertence ao Grupo de Risco?" />
                             </form:label>
                             <form:fields>
-                                <RadioButtonGroup  columns="2" selectedIndex="2" class="sapUiMediumMarginBottom">
-                                    <RadioButton  text="Sim" />
-                                    <RadioButton text="Não" />
+                                <RadioButtonGroup columns="2" id="groupRisk"  select="onSelect" selectedIndex="-1">
+                                    <RadioButton id="RB2-1"  text="Sim" />
+                                    <RadioButton id="RB2-2" text="Não" />
                                 </RadioButtonGroup>
                             </form:fields>
                         </form:FormElement>
@@ -90,19 +99,19 @@
                                 <Label design="Bold" text="Mora com alguém do grupo de Risco?" />
                             </form:label>
                             <form:fields>
-                                <RadioButtonGroup  columns="2" selectedIndex="2" class="sapUiMediumMarginBottom">
-                                    <RadioButton  text="Sim" />
+                                <RadioButtonGroup  columns="2" id="livesRiskGroup" select="onSelect" selectedIndex="-1" >
+                                    <RadioButton  text="Sim"   />
                                     <RadioButton  text="Não" />
                                 </RadioButtonGroup>
                             </form:fields>
                         </form:FormElement>
                         
-                        <form:FormElement >
+                        <form:FormElement>
                             <form:label>
-                                <Label design="Bold" text="Utiliza transporte coletivo?" />
+                                <Label design="Bold"  text="Utiliza transporte coletivo?" />
                             </form:label>
                             <form:fields>
-                                <RadioButtonGroup  columns="2" selectedIndex="2" class="sapUiMediumMarginBottom">
+                                <RadioButtonGroup columns="2" id="publicTransport" select="onSelect"  selectedIndex="-1">
                                     <RadioButton  text="Sim" />
                                     <RadioButton  text="Não" />
                                 </RadioButtonGroup>
@@ -114,7 +123,7 @@
                                 <Label  design="Bold" text="Passa mais de 1 hora no transporte coletivo?" />
                                 </form:label>
                             <form:fields>
-                                <RadioButtonGroup  columns="2" selectedIndex="2" class="sapUiMediumMarginBottom">
+                                <RadioButtonGroup  columns="2" id="hourPublicTransport" select="onSelect" selectedIndex="-1" >
                                     <RadioButton  text="Sim" />
                                     <RadioButton  text="Não" />
                                 </RadioButtonGroup>
@@ -126,17 +135,57 @@
                                 <Label design="Bold" text="Possui ambiente e equipamento para trabalho Home Office?" />
                             </form:label>
                             <form:fields>
-                                <RadioButtonGroup  columns="2" selectedIndex="2" class="sapUiMediumMarginBottom">
+                                <RadioButtonGroup  columns="2" id="environmentEquipment" select="onSelect" selectedIndex="-1">
                                     <RadioButton  text="Sim" />
                                     <RadioButton  text="Não" />
                                 </RadioButtonGroup>
                             </form:fields>
                         </form:FormElement>
+
+                        <form:FormElement >
+                            <form:label>
+                                <Label design="Bold" text="Já pegou COVID-19?" />
+                            </form:label>
+                            <form:fields>
+                                <RadioButtonGroup  columns="2" id="gotCOVID" select="onSelect"  selectedIndex="-1">
+                                    <RadioButton  text="Sim" />
+                                    <RadioButton  text="Não" />
+                                </RadioButtonGroup>
+                            </form:fields>
+                        </form:FormElement>
+
+                        <form:FormElement >
+                            <form:label>
+                                <Label design="Bold" text="Está atualmente com COVID?" />
+                            </form:label>
+                            <form:fields>
+                                <RadioButtonGroup  columns="2" id="activeCase" select="onSelect" selectedIndex="-1">
+                                    <RadioButton  text="Sim" />
+                                    <RadioButton  text="Não" />
+                                </RadioButtonGroup>
+                            </form:fields>
+                        </form:FormElement>
+
+
+                        <form:FormElement>
+                            <form:label>
+                                <Label text="Data de Contaminação" design="Bold"/>
+                            </form:label>
+                            <form:fields>
+                                <MaskInput value="{Employees>/contaminationDate}" placeholder="YYYY-MM-DD" mask="    -  -  " enabled="true">
+                                        <rules>
+                                            <MaskInputRule   maskFormatSymbol=" "/>
+                                        </rules>
+				                </MaskInput>
+                            </form:fields>
+                        </form:FormElement>
+
                     </form:formElements>
                 </form:FormContainer>
              </form:formContainers>
          </form:Form>
         </content>
+
          <footer>
             <OverflowToolbar>
                 <ToolbarSpacer/>

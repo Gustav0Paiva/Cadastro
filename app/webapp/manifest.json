@@ -82,60 +82,17 @@
                     "name": "RouteApp",
                     "pattern": "RouteApp",
                     "target": ["TargetApp"]
-                },
-                {
-                    "name": "Menu",
-                    "pattern": "",
-                    "target": ["Menu", "CadastroParceiros"]
-                },
-                {
-                    "name": "CadastroParceiros",
-                    "pattern": "CadastroParceiros",
-                    "target": ["Menu", "CadastroParceiros"]
-                },
-                {
-                    "name": "ConsultaParceiros",
-                    "pattern": "ConsultaParceiros",
-                    "target": ["Menu", "ConsultaParceiros"]
-                },
-                {
-                    "name": "EditarParceiros",
-                    "pattern": "EditarParceiros/{id}",
-                    "target": ["Menu", "CadastroParceiros"]
                 }
 
             ],
 			"targets": {
-                "Menu": { 
-					"viewType": "XML",
-					"transition": "slide",
-					"clearControlAggregation": false,
-					"viewId": "menu",
-                    "viewName": "Menu",
-                    "controlAggregation": "masterPages"
-                },
+            
 				"TargetApp": {
 					"viewType": "XML",
 					"transition": "slide",
 					"clearControlAggregation": false,
 					"viewId": "App",
 					"viewName": "App"
-                },
-                "CadastroParceiros": {
-					"viewType": "XML",
-					"transition": "slide",
-					"clearControlAggregation": false,
-					"viewId": "cadastroparceiros",
-                    "viewName": "CadastroParceiros",
-                    "controlAggregation": "detailPages"
-                },
-                "ConsultaParceiros": {
-					"viewType": "XML",
-					"transition": "slide",
-					"clearControlAggregation": false,
-					"viewId": "consultaparceiros",
-                    "viewName": "ConsultaParceiros",
-                    "controlAggregation": "detailPages"
                 }
 			}
 		}

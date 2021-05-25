@@ -17,5 +17,8 @@
     "dependencies": [
       "@sap/ui5-builder-webide-extension"
     ]
+  },
+  "dependencies": {
+    "@types/jquery": "^3.5.5"
   }
 }
