@@ -32,13 +32,9 @@ sap.ui.define([
             },
 
             onSelect: function (oEvent) {
-                var employees = this.getView().getModel("Employees").getData()
-                // pegando o id do grupo do radioButton, por padrão ele vem
-                // assim: container-project1---View1--gotCOVID / container-nome_do_projeto---Nome_da_View-id
-                var grupo = oEvent.getParameters().id
-
-                // pega o texto do botão
-                var button = oEvent.getSource().getSelectedButton().mProperties.text
+                var employees = this.getView().getModel("Employees").getData();
+                var grupo = oEvent.getParameters().id;
+                var button = oEvent.getSource().getSelectedButton().mProperties.text;
 
                 switch (grupo) {
                     case 'container-app---App--vaccinated':
@@ -66,39 +62,44 @@ sap.ui.define([
                         employees.activeCase = button == 'Sim' ? true : false;
                         break;
                 }
-                this.getView().setModel(new JSONModel(employees), "Employees")
-
+                this.getView().setModel(new JSONModel(employees), "Employees");
             },
 
             onConfirmar: async function () {
+                var Employees = this.getView().getModel("Employees").getData();
+                console.log(Employees);
                 
-
-
-                var Employees = this.getView().getModel("Employees").getData()
-                console.log(Employees)
-                
-                if (!Employees.gotCOVID || !Employees.activeCase) {
+                if(!Employees.gotCOVID || !Employees.activeCase) {
                     delete Employees.contaminationDate                   
                 }
+                else if(Employees.activeCase && Employees.contaminationDate == ""){
+                    let data = new Date()
+                    let dia = String(data.getDate()).padStart(2, '0');
+                    let mes = String(data.getMonth() + 1).padStart(2, '0');
+                    let ano = data.getFullYear();
+                    let dataAtual = `${ano}-${mes}-${dia}`;
 
+                    Employees.contaminationDate = dataAtual;
+                }
                 Employees.department_ID = parseInt(Employees.department_ID)
+                
                 await $.ajax({
-                    "url": "/api/Employees",
+                    "url": "/api/main/Employees",
                     "method": "POST",
                     headers: {
                             "Content-Type": "application/json"
                         },
                     "data": JSON.stringify(Employees),
                     success() {
-                        MessageBox.success("Operação realizada com sucesso");
+                        MessageBox.success("Cadastro concluído com sucesso! Redirecionando para a Home - Funcionários.");
+                        setTimeout(function(){
+                            window.location.href = "https://b95a3780trial-dev-employees-approuter.cfapps.us10.hana.ondemand.com/app/index.html#/buscaInformacao"
+                        },3000);
                     },
                     error() {
-                        MessageBox.error("Um erro ocorreu, tente novamente")
+                        MessageBox.error("Não foi possível concluir seu cadastro. Tente novamente mais tarde.");
                     }
                 })
-
             }
-
-
         });
     });
